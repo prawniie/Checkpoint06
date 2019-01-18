@@ -9,13 +9,13 @@ namespace Checkpoint_06
 
         static void Main(string[] args)
         {
-            RecreateDatabase();
+            //RecreateDatabase();
 
-            AddSpaceship("USS Enterprise");
-            AddSpaceship("Millennium Falcon");
-            AddSpaceship("Cylon Raider");
+            //AddSpaceship("USS Enterprise");
+            //AddSpaceship("Millennium Falcon");
+            //AddSpaceship("Cylon Raider");
 
-            AddRavioliForSpaceship("Cylon Raider", 1, "2018-04-19");
+            //AddRavioliForSpaceship("Cylon Raider", 1, "2018-04-19");
             //AddRavioliForSpaceship("Millennium Falcon", 1, "2017-01-01");
             //AddRavioliForSpaceship("Millennium Falcon", 2, "2018-01-01");
             //AddRavioliForSpaceship("Nalle Puh", 99, "1950-01-01");
@@ -26,8 +26,8 @@ namespace Checkpoint_06
 
         private static void AddRavioliForSpaceship(string spaceshipName, int numberOfRaviolis, string packageDate)
         {
-            _dataAccess.CreateRaviolis(numberOfRaviolis, packageDate);
-            //_dataAccess.AddRavioliForSpaceship(raviolis, spaceshipName); anv Where för att filtrera
+            List<Ravioli> raviolis = _dataAccess.CreateRaviolis(numberOfRaviolis, packageDate);
+            _dataAccess.AddRavioliForSpaceship(raviolis, spaceshipName);
         }
 
         private static void DisplaySpaceships(List<Spaceship> list)
@@ -35,7 +35,21 @@ namespace Checkpoint_06
             foreach (var spaceship in list)
             {
                 Console.WriteLine(spaceship.Name);
+
+                if (spaceship.Raviolis.Count == 0)
+                    Console.WriteLine("Slut på ravioli :(");
+                else
+                    PrintRaviolis(spaceship.Raviolis);
+
                 Console.WriteLine();
+            }
+        }
+
+        private static void PrintRaviolis(List<Ravioli> raviolis)
+        {
+            foreach (var ravioli in raviolis)
+            {
+                Console.WriteLine($"Ravioli".PadRight(10) + "Packdatum:" + ravioli.PackageDate.ToShortDateString().PadRight(15) + "Bästföre:" + ravioli.BestBeforeDate.ToShortDateString());
             }
         }
 
@@ -57,6 +71,13 @@ namespace Checkpoint_06
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
             }
+        }
+
+        private static void WriteGrey(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(text);
+            Console.ResetColor();
         }
     }
 }

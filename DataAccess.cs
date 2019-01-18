@@ -31,7 +31,7 @@ namespace Checkpoint_06
             return _context.Spaceships.Include(x => x.Raviolis).ToList();
         }
 
-        internal void CreateRaviolis(int numberOfRaviolis, string packageDate)
+        internal List<Ravioli> CreateRaviolis(int numberOfRaviolis, string packageDate)
         {
             List<Ravioli> raviolis = new List<Ravioli>();
 
@@ -40,18 +40,36 @@ namespace Checkpoint_06
                 var ravioli = new Ravioli
                 {
                     PackageDate = Convert.ToDateTime(packageDate),
-                    BestBeforeDate = Convert.ToDateTime(packageDate).AddMonths(6)
+                    BestBeforeDate = Convert.ToDateTime(packageDate).AddMonths(6).AddDays(15)
+                    
                 };
                 raviolis.Add(ravioli);
             }
 
-            _context.Raviolis.AddRange(raviolis);
-            _context.SaveChanges();
+            //var basket = new Basket
+            //{
+            //    Name = "Oscars kundkorg",
+            //    FruitInBaskets = new List<FruitInBasket>
+            //    {
+            //        new FruitInBasket { Fruit = nypon },
+            //        new FruitInBasket { Fruit = päron},
+            //    }
+            //};
+
+            //_context.Baskets.Add(basket);
+            //_context.SaveChanges();
+
+            //_context.Raviolis.AddRange(raviolis);
+            //_context.SaveChanges();
+
+            return raviolis;
         }
 
         internal void AddRavioliForSpaceship(List<Ravioli> raviolis, string spaceshipName)
         {
-            throw new NotImplementedException();
+            Spaceship spaceship = _context.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault();
+            spaceship.Raviolis = raviolis;
+            _context.SaveChanges();
         }
     }
 }
