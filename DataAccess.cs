@@ -30,5 +30,28 @@ namespace Checkpoint_06
         {
             return _context.Spaceships.Include(x => x.Raviolis).ToList();
         }
+
+        internal void CreateRaviolis(int numberOfRaviolis, string packageDate)
+        {
+            List<Ravioli> raviolis = new List<Ravioli>();
+
+            for (int i = 0; i < numberOfRaviolis; i++)
+            {
+                var ravioli = new Ravioli
+                {
+                    PackageDate = Convert.ToDateTime(packageDate),
+                    BestBeforeDate = Convert.ToDateTime(packageDate).AddMonths(6)
+                };
+                raviolis.Add(ravioli);
+            }
+
+            _context.Raviolis.AddRange(raviolis);
+            _context.SaveChanges();
+        }
+
+        internal void AddRavioliForSpaceship(List<Ravioli> raviolis, string spaceshipName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

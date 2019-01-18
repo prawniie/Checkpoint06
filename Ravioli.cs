@@ -8,16 +8,8 @@ namespace Checkpoint_06
     {
         public int Id { get; set; }
         public DateTime PackageDate { get; set; }
-        public DateTime BestBeforeDate
-        {
-            get
-            {
-                return BestBeforeDate;
-            }
-            set
-            {
-                BestBeforeDate = PackageDate.AddMonths(6);
-            } 
-        }
+        public DateTime BestBeforeDate { get; set; }
+        public Spaceship Spaceship { get; set; }
+
     }
 }
