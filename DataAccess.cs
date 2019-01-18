@@ -57,7 +57,15 @@ namespace Checkpoint_06
         {
             Spaceship spaceship = _context.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault();
 
-            if (spaceship.Raviolis == null)
+            if (spaceship == null)
+                return;
+
+            if (spaceship == null)
+                throw new Exception("......");
+
+
+
+            if (spaceship.Raviolis == null) //fixa
             {
                 spaceship.Raviolis = raviolis;
             }
