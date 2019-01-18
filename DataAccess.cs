@@ -45,30 +45,27 @@ namespace Checkpoint_06
                 };
                 raviolis.Add(ravioli);
             }
-
-            //var basket = new Basket
-            //{
-            //    Name = "Oscars kundkorg",
-            //    FruitInBaskets = new List<FruitInBasket>
-            //    {
-            //        new FruitInBasket { Fruit = nypon },
-            //        new FruitInBasket { Fruit = päron},
-            //    }
-            //};
-
-            //_context.Baskets.Add(basket);
-            //_context.SaveChanges();
-
-            //_context.Raviolis.AddRange(raviolis);
-            //_context.SaveChanges();
-
             return raviolis;
+        }
+
+        internal bool CheckIfSpaceshipExist(string spaceshipName)
+        {
+            return _context.Spaceships.Any(x => x.Name == spaceshipName);
         }
 
         internal void AddRavioliForSpaceship(List<Ravioli> raviolis, string spaceshipName)
         {
             Spaceship spaceship = _context.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault();
-            spaceship.Raviolis = raviolis;
+
+            if (spaceship.Raviolis == null)
+            {
+                spaceship.Raviolis = raviolis;
+            }
+            else
+            {
+                spaceship.Raviolis.AddRange(raviolis);
+            }
+
             _context.SaveChanges();
         }
     }
